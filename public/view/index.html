@@ -1,0 +1,12 @@
+<div class="container">
+<div class="row">
+<button ng-click="auth()">Authenticate</button>
+<br>
+<select ng-model="selectIndex" name="selected-table">
+	<option value="{{$index}}" ng-repeat="row in table.items">{{row.name}}</option>
+</select>
+<select name="selected-column">
+	<option ng-repeat="column in table.items[selectIndex].columns">{{column.name}}</option>
+</select>
+</div>
+</div>
