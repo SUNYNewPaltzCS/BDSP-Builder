@@ -2,7 +2,9 @@
 logs
 *.log
 npm-debug.log*
-
+client_secrets.json
+private/*
+.*.sw*
 # Runtime data
 pids
 *.pid
