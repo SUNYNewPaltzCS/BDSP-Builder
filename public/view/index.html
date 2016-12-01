@@ -1,12 +1,32 @@
-<div class="container">
-<div class="row">
-<button ng-click="auth()">Authenticate</button>
-<br>
+<form ng-submit="submit()" >
 <select ng-model="selectIndex" name="selected-table">
+	<option value="" disabled selected hidden>Choose a table...</option>
 	<option value="{{$index}}" ng-repeat="row in table.items">{{row.name}}</option>
 </select>
-<select name="selected-column">
+<br>
+	<div ng-repeat="column in table.items[selectIndex].columns">
+		<span>
+			<a ng-click="moveUp($index)" href="">&uarr;</a>
+			<a ng-click="moveDown($index)" href="">&darr;</a>
+		</span>
+		<span style="min-width:15%; display:inline-block;">
+			<input name="field-{{column.name}}" type="hidden">{{column.name}}</input>
+		</span>
+		<select name="field-{{column.name}}-type">
+			<option value="text">Text</option>
+			<option value="dropdown">Dropdown</option>
+			<option value="id">ID/Login</option>
+			<option value="bluetooth">Bluetooth</option>
+			<option value="camera">Camera</option>
+		</select>
+	</div>
+	<input ng-if="selectIndex" type="submit"></input>
+</form>
+<!--
+Shift click to select multiple
+<br>
+<select style="width:300px; height:100%" data-ng-attr-size="{{table.items[selectIndex].columns.length}}" multiple name="selected-column">
 	<option ng-repeat="column in table.items[selectIndex].columns">{{column.name}}</option>
 </select>
-</div>
-</div>
+-->
+

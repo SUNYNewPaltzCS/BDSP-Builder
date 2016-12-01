@@ -9,17 +9,16 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
         <script>
-/*            var tabled;
-            $.get('/fusiontable/table',function(data,status) {
-                $("#ftArea").html(JSON.stringify(data));
-                console.log(data);
-            });
-*/
 	angular.module('app', [ 'ngRoute' ])
 		.config(function($routeProvider, $httpProvider) {
 			$routeProvider.
 			when('/', {
 				templateUrl: 'view/index.html',
+				controller: 'indexController',
+				controllerAs: 'vm'
+			}).
+			when('/submit', {
+				templateUrl: 'view/submit.html',
 				controller: 'indexController',
 				controllerAs: 'vm'
 			}).
@@ -32,7 +31,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
     </head>
     <body ng-app='app' ng-cloak>	
-        <div ng-view id="ftArea">
-        </div>
+	<div class="container">
+	<div class="row">
+		<h2>Big Data for Small Places</h2>
+        	<div ng-view>
+       		</div>	
+	</div>
+	</div>
     </body>
 </html>

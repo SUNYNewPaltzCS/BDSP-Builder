@@ -39,10 +39,13 @@ app.get("/fusiontable", function(req, res) {
                 res.send(rows);
             });
         }
-		else {
-			fusiontable.get(function(err, rows) {
-				res.send("NOT LOGGED IN");
-			});     
-		}
+	else {
+		fusiontable.get(function(err, rows) {
+			res.send("NOT LOGGED IN");
+		});     
+	}
+    })
+    .post("/build", function(req, res) {
+   	 
     });
 app.listen(PORT_NUMBER);
