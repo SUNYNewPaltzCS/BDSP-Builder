@@ -4,23 +4,30 @@
 	<option value="{{$index}}" ng-repeat="row in table.items">{{row.name}}</option>
 </select>
 <br>
+<div ng-if="selectIndex">
+	<div>User ID/Login (required): 
+		<select ng-model="table.items[selectIndex].id">
+			<option value="" disabled selected hidden>Choose ID field</option>
+			<option value="{{column.name}}" ng-repeat="column in table.items[selectIndex].columns">{{column.name}}</option>
+		</select>
+	</div>
 	<div ng-repeat="column in table.items[selectIndex].columns">
 		<span>
 			<a ng-click="moveUp($index)" href="">&uarr;</a>
 			<a ng-click="moveDown($index)" href="">&darr;</a>
 		</span>
 		<span style="min-width:15%; display:inline-block;">
-			<input name="field-{{column.name}}" type="hidden">{{column.name}}</input>
+		<input ng-model="fieldName" type="hidden">{{column.name}}</input>
 		</span>
-		<select name="field-{{column.name}}-type">
+		<select ng-init="column.inputType = 'text'" ng-model="column.inputType" name="field-{{column.name}}-type">
 			<option value="text">Text</option>
 			<option value="dropdown">Dropdown</option>
-			<option value="id">ID/Login</option>
 			<option value="bluetooth">Bluetooth</option>
 			<option value="camera">Camera</option>
 		</select>
 	</div>
 	<input ng-if="selectIndex" type="submit"></input>
+</div>
 </form>
 <!--
 Shift click to select multiple

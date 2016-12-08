@@ -1,9 +1,7 @@
 angular.module('app')
 	.controller('indexController', function( $window, $scope, $http) {
-		
 		$scope.submit = function() {
-			console.log("CLICK RECEIVED");
-			$http.post('/build', $scope.table)
+			$http.post('/build', $scope.table.items[$scope.selectIndex])
 				.success(function(data) {
 					$window.location.href = "http://sunyfusion.me:8080/#/submit";
 				})
@@ -36,6 +34,11 @@ angular.module('app')
 		}
 		$scope.table = {};
 		$scope.selectIndex = "";
+		$scope.writeProp = function(ind, key, value) {
+			var selTable = $scope.table.items[$scope.selectIndex];
+			var col = selTable.columns[ind];
+			col[key] = value;
+		}
 		
 		$http.get('/fusiontable/table')
 			.success(function(data) {

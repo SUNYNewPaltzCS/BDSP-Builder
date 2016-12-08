@@ -4,6 +4,7 @@ var express = require('express'),
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fusiontable = require('./model/fusiontable.js');
+var build = require('./model/build.js');
 console.log(__dirname + '/public');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -46,6 +47,8 @@ app.get("/fusiontable", function(req, res) {
 	}
     })
     .post("/build", function(req, res) {
-   	 
+   	build.post(req.body, function(err, response) {
+		res.send(response);
+	});
     });
 app.listen(PORT_NUMBER);
