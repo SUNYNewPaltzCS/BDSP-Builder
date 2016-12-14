@@ -8,7 +8,8 @@
     	<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
-        <script>
+   <script>
+	var WEB_ROOT = "/node-builder"
 	angular.module('app', [ 'ngRoute' ])
 		.config(function($routeProvider, $httpProvider) {
 			$routeProvider.
@@ -26,7 +27,7 @@
 				redirectTo: '/'
 			});	    	
 		});
-        </script>
+    </script>
 	<script src="controller/indexController.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
     </head>
@@ -35,7 +36,7 @@
 	<div class="row">
 		<h2>Big Data for Small Places</h2>
         	<div ng-view>
-       		</div>	
+       	</div>	
 	</div>
 	</div>
     </body>

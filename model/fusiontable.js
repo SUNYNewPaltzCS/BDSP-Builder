@@ -17,13 +17,14 @@ var google = require('googleapis');
 var fs = require("fs");
 var OAuth2Client = google.auth.OAuth2;
 var ft = google.fusiontables('v2');
+var user = google.oauth2('v2');
 
 // Client ID and client secret are available at
 // https://code.google.com/apis/console
 var client_secrets = JSON.parse(fs.readFileSync('./client_secrets.json'));
 var CLIENT_ID = client_secrets.web.client_id;
 var CLIENT_SECRET = client_secrets.web.client_secret;
-var REDIRECT_URL = 'http://sunyfusion.me:8080/fusiontable/auth';
+var REDIRECT_URL = 'http://sunyfusion.me/node-builder/fusiontable/auth';
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 google.options({
@@ -37,7 +38,11 @@ module.exports = {
     get: function(ret) {
         var url = oauth2Client.generateAuthUrl({
             access_type: 'offline', // will return a refresh token
-            scope: 'https://www.googleapis.com/auth/fusiontables.readonly' // can be a space-delimited string or an array of scopes
+            scope: [
+					'https://www.googleapis.com/auth/fusiontables',
+					'https://www.googleapis.com/auth/userinfo.email'
+				]
+					// can be a space-delimited string or an array of scopes
         });
         ret(null, url);
     },
@@ -47,6 +52,13 @@ module.exports = {
                 return ret(err, null);
             }
             oauth2Client.setCredentials(tokens);
+				if("refresh_token" in tokens){ 
+				//TODO write refresh tokens to file
+				}
+				console.log(tokens);
+				user.userinfo.v2.me.get('email', function(err, email) {
+					console.log(email);
+				});
             ft.table.list({}, [], function(err, profile) {
                 if (err) {
                     console.log('An error occured', err);

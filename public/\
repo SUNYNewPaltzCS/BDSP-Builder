@@ -1,26 +1,10 @@
-<style>
-.loader {
-	border: 16px solid #f3f3f3; /* Light grey */
-			  border-top: 16px solid #3498db; /* Blue */
-			  border-radius: 50%;
-	width: 40px;
-	height: 40px;
-	animation: spin 2s linear infinite;
-	}
-
-	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
-	}
-</style>
 <form ng-submit="submit()" >
-	<h5>Table</h5>
 <select ng-model="selectIndex" name="selected-table">
 	<option value="" disabled selected hidden>Choose a table...</option>
 	<option value="{{$index}}" ng-repeat="row in table.items">{{row.name}}</option>
 </select>
+<br>
 <div ng-if="selectIndex">
-	<h5>Fields</h5>
 	<div>User ID/Login (required): 
 		<select ng-model="table.items[selectIndex].id">
 			<option value="" disabled selected hidden>Choose ID field</option>
@@ -35,29 +19,15 @@
 		<span style="min-width:15%; display:inline-block;">
 		<input ng-model="fieldName" type="hidden">{{column.name}}</input>
 		</span>
-		<select ng-disabled="notSel(column)" ng-init="column.inputType = 'unused'" ng-model="column.inputType">
+		<select ng-disabled="notSelFields({{column.name}})" ng-init="column.inputType = 'unused'" ng-model="column.inputType" name="field-{{column.name}}-type">
 			<option value="unused">Not Used</option>
 			<option value="textfield">Text</option>
 			<option value="dropdown">Dropdown</option>
 			<option value="bluetooth">Bluetooth</option>
 			<option value="photo">Camera</option>
-			<option value="gpsTracker">KML Path Data</option>
 		</select>
-		<div ng-if="column.inputType === 'gpsTracker'">
-			<label for="gpsInterval">GPS ping interval (Milliseconds)</label>
-			<input type="text" name="gpsInterval" ng-model="column.gpsInterval"></input>
-			<p>
-			**KML Path Data expects a "start" and "end" field in the FusionTable and "not used" in this form**
-			</p>
-		</div>
-		<div ng-if="column.inputType === 'dropdown'">
-			Comma separated list of options:
-			<input ng-model="column.ddoptions" type="text" >
-			</input>
-		</div>
 	</div>
-	<div ng-show="loading" class="loader">Building, please wait...</div>
-	<input ng-hide="loading" ng-if="selectIndex" type="submit"></input>
+	<input ng-if="selectIndex" type="submit"></input>
 </div>
 </form>
 

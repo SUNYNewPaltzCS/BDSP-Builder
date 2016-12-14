@@ -5,6 +5,7 @@ npm-debug.log*
 client_secrets.json
 private/*
 .*.sw*
+*.apk
 # Runtime data
 pids
 *.pid

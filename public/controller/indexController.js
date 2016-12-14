@@ -1,9 +1,12 @@
 angular.module('app')
-	.controller('indexController', function( $window, $scope, $http) {
+	.controller('indexController', function( $window, $location, $scope, $http) {
+		$scope.loading = false;
 		$scope.submit = function() {
-			$http.post('/build', $scope.table.items[$scope.selectIndex])
+			$scope.loading = true;
+			$http.post(WEB_ROOT + '/build', $scope.table.items[$scope.selectIndex])
 				.success(function(data) {
-					$window.location.href = "http://sunyfusion.me:8080/#/submit";
+					$scope.loading = false;
+					$window.location.href = WEB_ROOT + "/downloads/" + data;
 				})
 				.error(function() {
 					console.log("An error occurred :/");	
@@ -11,7 +14,7 @@ angular.module('app')
 			
 		}
 		$scope.auth = function() {
-			$http.get('/fusiontable')
+			$http.get(WEB_ROOT + '/fusiontable')
 				.success(function(data) {
 					$window.location.href = data;
 				});
@@ -39,11 +42,20 @@ angular.module('app')
 			var col = selTable.columns[ind];
 			col[key] = value;
 		}
-		
-		$http.get('/fusiontable/table')
+		$scope.notSel = function(field) {
+			var selTable = $scope.table.items[$scope.selectIndex];
+			if(selTable.id !== field.name) {
+				return false;
+			}
+			else {
+				field.inputType = 'unused';
+				return true;
+			}
+		}
+
+		$http.get(WEB_ROOT + '/fusiontable/table')
 			.success(function(data) {
 				$scope.table = data;
-				console.log($scope.table);
 				if($scope.table === 'NOT LOGGED IN') {
 					$scope.auth();
 				}

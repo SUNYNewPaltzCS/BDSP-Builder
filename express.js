@@ -2,6 +2,7 @@ var PORT_NUMBER = 8080;
 var express = require('express'),
     app = express();
 var bodyParser = require('body-parser');
+var fs = require('fs');
 var session = require('express-session');
 var fusiontable = require('./model/fusiontable.js');
 var build = require('./model/build.js');
@@ -16,7 +17,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
-var site = "http://sunyfusion.me:8080";
+var site = "http://sunyfusion.me/node-builder";
 app.get("/fusiontable", function(req, res) {
         fusiontable.get(function(err, rows) {
             res.send(rows);
@@ -40,15 +41,20 @@ app.get("/fusiontable", function(req, res) {
                 res.send(rows);
             });
         }
-	else {
-		fusiontable.get(function(err, rows) {
-			res.send("NOT LOGGED IN");
-		});     
-	}
+		  else {
+			fusiontable.get(function(err, rows) {
+					res.send("NOT LOGGED IN");
+				});     
+		  }
     })
+	 .get("/downloads/:file", function(req, res) {
+	 	  var file = req.params.file;
+		  var dl = fs.readFileSync('public/downloads/' + file);
+		  res.end(dl, 'binary');
+	 })
     .post("/build", function(req, res) {
    	build.post(req.body, function(err, response) {
-		res.send(response);
-	});
+			res.send(response);
+		});
     });
 app.listen(PORT_NUMBER);

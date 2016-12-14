@@ -1,0 +1,7 @@
+table bdspTestTable
+id truckID
+url http://www.sunyfusion.me/ft_test/
+email jett925@gmail.com
+gpsTracker 1 geometry 2000 start end
+dropdown tons [one,two,three]
+endFile
