@@ -77,6 +77,8 @@ module.exports = {
             oauth2Client.setCredentials(tokens);
 				user.userinfo.v2.me.get('email', function(err, email) {
 					req.session.email = email.email;
+					console.log("Email set " + req.session.email);
+					req.session.save();
 					writeRefreshToken(email.email,tokens.refresh_token);	
 					if("refresh_token" in tokens){ 
 						writeRefreshToken(email.email,tokens.refresh_token);	

@@ -5,7 +5,6 @@ var exec = require('child_process').execSync;
 module.exports = {
 	blank: function() { return {} },
 	post: function(req, ret) {
-		console.log(req);
 		var table = req.body;
 		var latOnSub = "";
 		var lonOnSub = "";

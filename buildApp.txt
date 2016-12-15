@@ -1,5 +1,9 @@
-table NewTable
-id Text
+table bdspTestTable
+id truckID
 url http://www.sunyfusion.me/ft_test/
-email undefined
+email jett925@gmail.com
+run 1 run
+gpsTracker 1 geometry 2000 start end
+textfield tons
+locOnSub 1 latitude longitude
 endFile
