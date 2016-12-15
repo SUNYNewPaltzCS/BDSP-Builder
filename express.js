@@ -24,7 +24,7 @@ app.get("/fusiontable", function(req, res) {
         });
     })
     .get("/fusiontable/auth", function(req, res) {
-        fusiontable.oauthcallback(req.query.code, function(err, rows) {
+        fusiontable.oauthcallback(req, function(err, rows) {
             if (err != null) {
                 req.session.loggedIn = true;
             }
@@ -53,7 +53,7 @@ app.get("/fusiontable", function(req, res) {
 		  res.end(dl, 'binary');
 	 })
     .post("/build", function(req, res) {
-   	build.post(req.body, function(err, response) {
+   	build.post(req, function(err, response) {
 			res.send(response);
 		});
     });

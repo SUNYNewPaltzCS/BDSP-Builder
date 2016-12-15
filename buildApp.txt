@@ -1,7 +1,6 @@
-table bdspTestTable
-id truckID
+table HelloFusion
+id truck_number
 url http://www.sunyfusion.me/ft_test/
-email jett925@gmail.com
-gpsTracker 1 geometry 2000 start end
-dropdown tons [one,two,three]
+email npcsproject@gmail.com
+textfield date
 endFile

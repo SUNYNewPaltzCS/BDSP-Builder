@@ -30,7 +30,28 @@ var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 google.options({
     auth: oauth2Client
 });
-
+var writeRefreshToken = function(email, token) {
+	var refresh_tokens = JSON.parse(fs.readFileSync('private/refresh_tokens.json'));
+	console.log(refresh_tokens);
+	var exists = false;
+	for(var i =0; i < refresh_tokens.length; i++) {
+		var d = refresh_tokens[i];
+		if(d.email === email) {
+			console.log(email + " is in there");
+			d.token = token;
+			exists = true;
+		}
+	};
+	if(!exists) {
+		refresh_tokens.push({ 'email': email, 'token':token});
+	}
+	console.log(JSON.stringify(refresh_tokens));
+	var options = { flag : 'w' };
+	fs.writeFileSync('private/refresh_tokens.json', JSON.stringify(refresh_tokens), options, function(err) {
+		if (err) throw err;
+		console.log('file saved');
+	});
+}
 module.exports = {
     blank: function() {
         return {};
@@ -38,6 +59,7 @@ module.exports = {
     get: function(ret) {
         var url = oauth2Client.generateAuthUrl({
             access_type: 'offline', // will return a refresh token
+				approval_prompt: 'force',
             scope: [
 					'https://www.googleapis.com/auth/fusiontables',
 					'https://www.googleapis.com/auth/userinfo.email'
@@ -46,18 +68,19 @@ module.exports = {
         });
         ret(null, url);
     },
-    oauthcallback: function(code, ret) {
+    oauthcallback: function(req, ret) {
+	 	  var code = req.query.code;
         oauth2Client.getToken(code, function(err, tokens) {
             if (err) {
                 return ret(err, null);
             }
             oauth2Client.setCredentials(tokens);
-				if("refresh_token" in tokens){ 
-				//TODO write refresh tokens to file
-				}
-				console.log(tokens);
 				user.userinfo.v2.me.get('email', function(err, email) {
-					console.log(email);
+					req.session.email = email.email;
+					writeRefreshToken(email.email,tokens.refresh_token);	
+					if("refresh_token" in tokens){ 
+						writeRefreshToken(email.email,tokens.refresh_token);	
+					}
 				});
             ft.table.list({}, [], function(err, profile) {
                 if (err) {
