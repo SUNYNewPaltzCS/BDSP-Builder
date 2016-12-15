@@ -93,8 +93,11 @@ module.exports = {
     setRefreshToken: function(tokens) {
         oauth2Client.setCredentials(tokens);
     },
-    tables: function(ret) {
-        ft.table.list({}, [], function(err, profile) {
+    tables: function(req,ret) {
+		  user.userinfo.v2.me.get('email', function(err, email) {
+				req.session.email = email.email;
+        });
+		  ft.table.list({}, [], function(err, profile) {
             if (err) {
                 console.log('An error occured : ', err.message);
             }

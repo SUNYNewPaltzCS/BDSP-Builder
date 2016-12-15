@@ -1,6 +1,5 @@
-table HelloFusion
-id truck_number
+table NewTable
+id Text
 url http://www.sunyfusion.me/ft_test/
-email npcsproject@gmail.com
-textfield date
+email undefined
 endFile

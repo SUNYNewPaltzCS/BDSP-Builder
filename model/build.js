@@ -5,7 +5,10 @@ var exec = require('child_process').execSync;
 module.exports = {
 	blank: function() { return {} },
 	post: function(req, ret) {
+		console.log(req);
 		var table = req.body;
+		var latOnSub = "";
+		var lonOnSub = "";
 		var buildApp = [];
 		var currentStr = "";
 		buildApp.push("table " + table.name); //add table name
@@ -13,11 +16,16 @@ module.exports = {
 		buildApp.push("url http://www.sunyfusion.me/ft_test/");
 		buildApp.push("email " + req.session.email);
 		console.log(req.session.email);
-		//buildApp.push("email simonsj@newpaltz.edu");
 		table.columns.forEach(function(col) {
 			var currentStr = "";
 			if(col.inputType === 'unused') {
 				
+			}
+			else if(col.inputType === 'lon-on-sub') {
+				lonOnSub = col.name;
+			}
+			else if(col.inputType === 'lat-on-sub') {
+				latOnSub = col.name;
 			}
 			else if(col.inputType === 'run') {
 				currentStr = col.inputType + " 1 " + col.name;
@@ -36,6 +44,9 @@ module.exports = {
 				buildApp.push(currentStr);
 			}
 		});
+		if(latOnSub !== "" && lonOnSub !== "") {
+			buildApp.push("locOnSub 1 " + latOnSub + " " + lonOnSub);
+		}
 		buildApp.push("endFile");
 		var buildString = "";
 		buildApp.forEach(function(line) {

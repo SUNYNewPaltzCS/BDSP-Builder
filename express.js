@@ -37,7 +37,7 @@ app.get("/fusiontable", function(req, res) {
     })
     .get("/fusiontable/table", function(req, res) {
         if (req.session.loggedIn) {
-            fusiontable.tables(function(err, rows) {
+            fusiontable.tables(req, function(err, rows) {
                 res.send(rows);
             });
         }
