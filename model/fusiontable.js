@@ -59,7 +59,7 @@ module.exports = {
     get: function(ret) {
         var url = oauth2Client.generateAuthUrl({
             access_type: 'offline', // will return a refresh token
-				approval_prompt: 'force',
+				//approval_prompt: 'force',
             scope: [
 					'https://www.googleapis.com/auth/fusiontables',
 					'https://www.googleapis.com/auth/userinfo.email'
@@ -79,8 +79,9 @@ module.exports = {
 					req.session.email = email.email;
 					console.log("Email set " + req.session.email);
 					req.session.save();
-					writeRefreshToken(email.email,tokens.refresh_token);	
+					//writeRefreshToken(email.email,tokens.refresh_token);	
 					if("refresh_token" in tokens){ 
+						console.log("NEW REFRESH TOKEN");
 						writeRefreshToken(email.email,tokens.refresh_token);	
 					}
 				});

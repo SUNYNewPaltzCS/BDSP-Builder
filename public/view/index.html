@@ -79,7 +79,7 @@ input {
 		</div>
 	</div>
 	<div ng-show="loading" class="loader">Building, please wait...</div>
-	<input ng-hide="loading" ng-if="selectIndex" type="submit"></input>
+	<input ng-hide="loading" ng-if="table.items[selectIndex].id" type="submit"></input>
 </div>
 </form>
 
